@@ -1,6 +1,7 @@
 name: linux
 
-on: [push, pull_request]
+on: [pull_request]
+#on: [push, pull_request]
 
 jobs:
   arduino_ci:
@@ -8,7 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: Arduino-CI/action@v0.1.0
+      - uses: Arduino-CI/action@stable-1.x
         env:
           # Not all libraries are in the root directory of a repository.
           # Specifying the path of the library here (relative to the root
@@ -45,4 +46,4 @@ jobs:
           # within the Arduino libraries directory; you should NOT attempt
           # to find that directory nor change to it from within the script.
           #
-          CUSTOM_INIT_SCRIPT: scripts/Arduino-CI--pre-init.sh
+          CUSTOM_INIT_SCRIPT: scripts/Arduino-CI--init.sh
