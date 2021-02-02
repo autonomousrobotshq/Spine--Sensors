@@ -1,9 +1,9 @@
 compile:
   libraries:
-    - s-t-a-n--Structures
     - Spine--Filters
     - Spine--Timers
     - Spine--ROS-Generated
+    - Structures
     - TinyGPS
     - LSM303
     - OneWire
@@ -13,10 +13,10 @@ compile:
 
 unittest:
   libraries:
-    - s-t-a-n--Structures
     - Spine--Filters
     - Spine--Timers
     - Spine--ROS-Generated
+    - Structures
     - TinyGPS
     - LSM303
   platforms:
