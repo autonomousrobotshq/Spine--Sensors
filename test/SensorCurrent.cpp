@@ -51,10 +51,10 @@ unittest(Current_max)
 	SensorCurrent sensor(pin, sample_count, sampling_interval);
 	assertTrue(sensor.Init());
 
-	analogWrite(pin, 255);
+	analogWrite(pin, 1023); // ADC_RESOLUTION
 	assertTrue(sensor.Update());
-	assertMore(0, sensor.RetreiveData().GetCurrentMilliAmps());
-	assertMore(0, sensor.RetreiveData().GetCurrentAmps());
+	assertMore(sensor.RetreiveData().GetCurrentMilliAmps(), 0);
+	assertMore(sensor.RetreiveData().GetCurrentAmps(), 0);
 
 	// more precies guess ?
 }
