@@ -40,11 +40,11 @@ class SensorDataIMU : public SensorData {
 			MAGNETO_CAP_LOWER,
 			MAGNETO_CAP_UPPER
 		};
-    	int16_t GetNavigationAngle();
-    	Vec3<int16_t> GetMagnetometerData();
-    	void GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z);
-    	Vec3<int16_t> GetAccelerometerData();
-    	void GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z);
+    	int16_t GetNavigationAngle() const;
+    	Vec3<int16_t> GetMagnetometerData() const;
+    	void GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z) const;
+    	Vec3<int16_t> GetAccelerometerData() const;
+    	void GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z) const;
 	private:
 		friend class SensorIMU;
     	int16_t _navigation_angle;
@@ -55,7 +55,7 @@ class SensorDataIMU : public SensorData {
 		Vec3<int16_t> _min_magneto;
 #ifdef ROS
 	public:
-		void Publish();
+		void Publish() override;
 	private:
 		spine_msg::msg_imu _msg_imu;
 #endif
@@ -75,16 +75,17 @@ namespace IMU {
 class SensorIMU : public Sensor {
 public:
     SensorIMU(const uint16_t sample_count, const unsigned long sampling_interval);
-    ~SensorIMU();
-	bool Init(const IMU::cal_t &mag_cal);
-    bool Update();
-	SensorDataIMU &RetreiveData();
+    ~SensorIMU() override;
+	bool Init() override;
+    bool Update() override;
+	SensorDataIMU &RetreiveData() override;
+	void SetCalibrationParameters(const IMU::cal_t &mag_cal);
 	void SetMonitoringParameters(const Vec3<uint16_t> &max_acceleration, const Vec3<int16_t> &min_magneto, const Vec3<int16_t> &max_magneto);
-    int16_t GetNavigationAngle();
-    Vec3<int16_t> GetMagnetometerData();
-    void GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z);
-    Vec3<int16_t> GetAccelerometerData();
-    void GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z);
+    int16_t GetNavigationAngle() const;
+    Vec3<int16_t> GetMagnetometerData() const;
+    void GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z) const;
+    Vec3<int16_t> GetAccelerometerData() const;
+    void GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z) const;
 
 private:
     LSM303 _compass;
