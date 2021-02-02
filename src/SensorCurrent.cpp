@@ -42,6 +42,7 @@ SensorCurrent::~SensorCurrent()
 
 bool SensorCurrent::Init()
 {
+	pinMode(_analogPin, INPUT);
     _vref = ReadReferenceVoltage();
 	return (true);
 }
@@ -98,7 +99,7 @@ uint16_t SensorCurrent::ReadDCCurrent()
         _filter.NewReading(analogRead(_analogPin));
     }
     const uint16_t median_reading = _filter.GetFilteredSignal();
-	int16_t dc_current = (median_reading / ADC_RESOLUTION * _vref - _vref / 2.0) / _mVperAmp; //Sensitivity:100mV/A, 0A @ Vcc/2
+	int16_t dc_current = (median_reading / ADC_RESOLUTION * _vref) / _mVperAmp / 2;
     return ((dc_current < 0) ? 0 : dc_current);
 }
 
@@ -148,12 +149,12 @@ long SensorCurrent::ReadReferenceVoltage()
 
 uint16_t SensorCurrentData::GetCurrentMilliAmps() const
 {
-    return (_current);
+    return (_current * 1000);
 }
 
 uint8_t SensorCurrentData::GetCurrentAmps() const
 {
-    return (_current / 1000);
+    return (_current);
 }
 
 #ifdef ROS
