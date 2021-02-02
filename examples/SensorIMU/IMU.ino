@@ -8,7 +8,8 @@ SensorIMU sensor(SAMPLE_COUNT, SAMPLING_INTERVAL);
 
 void setup() {
 	IMU::cal_t mag_cal = {0, 0, 0, 0, 0, 0};
-	sensor.Init(mag_cal);
+	sensor.Init();
+	sensor.SetCalibrationParameters(mag_cal);
 }
 
 void loop() {
