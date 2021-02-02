@@ -83,7 +83,7 @@ void SensorHall::CounterReset()
     pulses[_interrupt_index] = 0;
 }
 
-uint16_t SensorHall::CounterGetDistance()
+uint16_t SensorHall::CounterGetDistance() const
 {
     const uint16_t distance = (pulses[_interrupt_index] / _counts_per_revolution) * _distance_per_revolution;
     return (distance);

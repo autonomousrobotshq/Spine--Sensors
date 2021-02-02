@@ -41,7 +41,7 @@ bool SensorTemp::Init()
 	return (true);
 }
 
-int16_t SensorTemp::GetTemp()
+int16_t SensorTemp::GetTemp() const
 {
     return (_data._celsius);
 }
@@ -86,8 +86,22 @@ void SensorTemp::SetMonitoringParameters(const uint16_t lower_limit, const uint1
  * SensorDataTemp
  */
 
-int16_t SensorDataTemp::GetTemp()
+SensorDataTemp::SensorDataTemp()
+{
+}
+
+SensorDataTemp::~SensorDataTemp()
+{
+}
+
+int16_t SensorDataTemp::GetTemp() const
 {
     return (_celsius);
 }
 
+#ifdef ROS
+void SensorDataTemp::Publish()
+{
+
+}
+#endif

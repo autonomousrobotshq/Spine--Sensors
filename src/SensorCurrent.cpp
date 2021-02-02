@@ -67,10 +67,25 @@ bool SensorCurrent::Update()
     return (error_occured == false);
 }
 
+SensorCurrentData &SensorCurrent::RetreiveData()
+{
+	return (_data);
+}
+
 void SensorCurrent::SetMonitoringParameters(const uint16_t lower_limit, const uint16_t upper_limit)
 {
 	_data._lower_limit = lower_limit;
 	_data._upper_limit = upper_limit;
+}
+
+uint16_t SensorCurrent::GetCurrentMilliAmps() const
+{
+    return (_data.GetCurrentMilliAmps());
+}
+
+uint8_t SensorCurrent::GetCurrentAmps() const
+{
+    return (_data.GetCurrentAmps());
 }
 
 /*read DC Current Value
@@ -131,17 +146,12 @@ long SensorCurrent::ReadReferenceVoltage()
  * SensorCurrentData
  */
 
-SensorCurrentData &SensorCurrent::RetreiveData()
-{
-	return (_data);
-}
-
-uint16_t SensorCurrentData::GetCurrentMilliAmps()
+uint16_t SensorCurrentData::GetCurrentMilliAmps() const
 {
     return (_current);
 }
 
-uint8_t SensorCurrentData::GetCurrentAmps()
+uint8_t SensorCurrentData::GetCurrentAmps() const
 {
     return (_current / 1000);
 }

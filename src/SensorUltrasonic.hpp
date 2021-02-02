@@ -37,7 +37,7 @@ class SensorDataUltrasonic : public SensorData
 			DISTANCE_CAP_LOWER,
 			DISTANCE_CAP_UPPER
 		};
-		uint16_t GetDistance();
+		uint16_t GetDistance() const;
 	private:
 		friend class SensorUltrasonic;
     	uint16_t _distance;
@@ -46,9 +46,9 @@ class SensorDataUltrasonic : public SensorData
 		uint16_t _upper_limit;
 
 #ifdef ROS                                                                      
-    public:                                                                     
-        void Publish();                                                         
-    private:                                                                    
+    public:
+        void Publish() override;
+    private:
         //spine_msg::msg_current _sonar_msg;                                  
 #endif
 
@@ -57,17 +57,17 @@ class SensorDataUltrasonic : public SensorData
 class SensorUltrasonic : public Sensor {
 public:
     SensorUltrasonic(const uint8_t pin, const uint16_t max_depth, const uint16_t sample_count, const unsigned long sampling_interval);
-    ~SensorUltrasonic();
-	bool Init();
-    bool Update();
-	SensorDataUltrasonic &RetreiveData();
+    ~SensorUltrasonic() override;
+	bool Init() override;
+    bool Update() override;
+	SensorDataUltrasonic &RetreiveData() override;
 	void SetMonitoringParameters(const uint16_t lower_limit, const uint16_t upper_limit);
 	
     /*!
 	**	@brief Gets calculated distance from sensor.
 	**	@return int16_t calculated distance in centimeters.
 	*/
-    uint16_t GetDistance();
+    uint16_t GetDistance() const;
 
 private:
     const uint8_t _analog_pin;
