@@ -25,29 +25,29 @@
 ** SensorDataIMU
 */
 
-int16_t SensorDataIMU::GetNavigationAngle()
+int16_t SensorDataIMU::GetNavigationAngle() const
 {
     return (_navigation_angle);
 }
 
-Vec3<int16_t> SensorDataIMU::GetAccelerometerData()
+Vec3<int16_t> SensorDataIMU::GetAccelerometerData() const
 {
     return (Vec3<int16_t>(_accelero.x, _accelero.y, _accelero.z));
 }
 
-void SensorDataIMU::GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z)
+void SensorDataIMU::GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z) const
 {
     *x = _accelero.x;
     *y = _accelero.y;
     *z = _accelero.z;
 }
 
-Vec3<int16_t> SensorDataIMU::GetMagnetometerData()
+Vec3<int16_t> SensorDataIMU::GetMagnetometerData() const
 {
     return (Vec3<int16_t>(_magneto.x, _magneto.y, _magneto.z));
 }
 
-void SensorDataIMU::GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z)
+void SensorDataIMU::GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z) const
 {
     *x = _magneto.x;
     *y = _magneto.y;
@@ -75,18 +75,17 @@ SensorIMU::SensorIMU(const uint16_t sample_count, const unsigned long sampling_i
 {
 }
 
-SensorIMU::~SensorIMU() { }
+SensorIMU::~SensorIMU()
+{
+}
 
-bool SensorIMU::Init(const IMU::cal_t &mag_cal)
+bool SensorIMU::Init()
 {
     Wire.begin();
     if (!_compass.init()) {
 		return (false);
     }
     _compass.enableDefault();
-
-    _compass.m_min = (LSM303::vector<int16_t>) { mag_cal.x_min, mag_cal.y_min, mag_cal.z_min };
-    _compass.m_max = (LSM303::vector<int16_t>) { mag_cal.x_max, mag_cal.y_max, mag_cal.z_max };
 	return (true);
 }
 
@@ -108,9 +107,9 @@ bool SensorIMU::Update()
 	// should a filtered Vec3<int16_t> object also be presented?
 
 	if (_data._monitoring_enabled) {
-		if (_data._accelero.x > _data._max_acceleration.x
-			|| _data._accelero.y > _data._max_acceleration.y
-			|| _data._accelero.z > _data._max_acceleration.z) {
+		if (abs(_data._accelero.x) > _data._max_acceleration.x
+			|| abs(_data._accelero.y) > _data._max_acceleration.y
+			|| abs(_data._accelero.z) > _data._max_acceleration.z) {
 			_data._errno = SensorDataIMU::ACCELERATION_CAP;
 			error_occured = true;
 		}
@@ -141,6 +140,12 @@ SensorDataIMU &SensorIMU::RetreiveData()
 	return (_data);
 }
 
+void SensorIMU::SetCalibrationParameters(const IMU::cal_t &mag_cal)
+{
+    _compass.m_min = (LSM303::vector<int16_t>) { mag_cal.x_min, mag_cal.y_min, mag_cal.z_min };
+    _compass.m_max = (LSM303::vector<int16_t>) { mag_cal.x_max, mag_cal.y_max, mag_cal.z_max };
+}
+
 void SensorIMU::SetMonitoringParameters(const Vec3<uint16_t> &max_acceleration, const Vec3<int16_t> &min_magneto, const Vec3<int16_t> &max_magneto)
 {
 	_data._max_acceleration = max_acceleration;
@@ -148,29 +153,29 @@ void SensorIMU::SetMonitoringParameters(const Vec3<uint16_t> &max_acceleration, 
 	_data._max_magneto = max_magneto;
 }
 
-int16_t SensorIMU::GetNavigationAngle()
+int16_t SensorIMU::GetNavigationAngle() const
 {
     return (_data._navigation_angle);
 }
 
-Vec3<int16_t> SensorIMU::GetAccelerometerData()
+Vec3<int16_t> SensorIMU::GetAccelerometerData() const
 {
     return (Vec3<int16_t>(_compass.a.x, _compass.a.y, _compass.a.z));
 }
 
-void SensorIMU::GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z)
+void SensorIMU::GetAccelerometerData(int16_t* x, int16_t* y, int16_t* z) const
 {
     *x = _compass.a.x;
     *y = _compass.a.y;
     *z = _compass.a.z;
 }
 
-Vec3<int16_t> SensorIMU::GetMagnetometerData()
+Vec3<int16_t> SensorIMU::GetMagnetometerData() const
 {
     return (Vec3<int16_t>(_compass.m.x, _compass.m.y, _compass.m.z));
 }
 
-void SensorIMU::GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z)
+void SensorIMU::GetMagnetometerData(int16_t* x, int16_t* y, int16_t* z) const
 {
     *x = _compass.m.x;
     *y = _compass.m.y;
