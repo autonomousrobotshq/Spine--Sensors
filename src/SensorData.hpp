@@ -29,9 +29,9 @@ class SensorData {
 	public:
 		SensorData();
 		virtual ~SensorData();
-		unsigned long GetTimestamp();
-		unsigned long GetTimeSinceLastExecution();
-		uint8_t GetError();
+		unsigned long GetTimestamp() const;
+		unsigned long GetTimeSinceLastExecution() const;
+		uint8_t GetError() const;
 		void EnableMonitoring();
 		void DisableMonitoring();
 	protected:
@@ -46,9 +46,9 @@ class SensorData {
 		SensorData(const char *topic_name, ros::Msg *msg);
 		virtual void Publish();
 		void PublishMsg(const ros::Msg * msg);
-		virtual ros::Publisher *GetPublisher();
+		virtual ros::Publisher *GetPublisher() const;
 		void SetPublisher(const char *topic_name, ros::Msg *msg);
-		bool IsPublishingEnabled();
+		bool IsPublishingEnabled() const;
 		void EnablePublishing();
 		void DisablePublishing();
 	private:

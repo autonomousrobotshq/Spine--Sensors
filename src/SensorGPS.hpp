@@ -41,10 +41,10 @@ class SensorDataGPS : public SensorData {
 			GPS_INVALID_F_SPEED,
 			GPS_INVALID_F_ANGLE
 		};
-    	void GetLocation(float* flat, float* flon);
-    	void GetTime(unsigned long* age, unsigned long* date, unsigned long* time);
-    	float GetSpeed();
-    	float GetCourse();
+    	void GetLocation(float* flat, float* flon) const;
+    	void GetTime(unsigned long* age, unsigned long* date, unsigned long* time) const;
+    	float GetSpeed() const;
+    	float GetCourse() const;
 	private:
 		friend class SensorGPS;
     	float _flat,
@@ -66,7 +66,7 @@ class SensorDataGPS : public SensorData {
     	    _hundredths;
 #ifdef ROS
 	public:
-		void Publish();
+		void Publish() override;
 	private:
 		spine_msg::msg_gps _msg_gps;
 #endif
@@ -78,14 +78,14 @@ public:
 				const uint16_t baudrate,
 				const uint16_t timeout,
 				const unsigned long sampling_interval);
-    ~SensorGPS();
-	bool Init();
-    bool Update();
-	SensorDataGPS &RetreiveData();
-    void GetLocation(float* flat, float* flon);
-    void GetTime(unsigned long* age, unsigned long* date, unsigned long* time);
-    float GetSpeed();
-    float GetCourse();
+    ~SensorGPS() override;
+	bool Init() override;
+    bool Update() override;
+	SensorDataGPS &RetreiveData() override;
+    void GetLocation(float* flat, float* flon) const;
+    void GetTime(unsigned long* age, unsigned long* date, unsigned long* time) const;
+    float GetSpeed() const;
+    float GetCourse() const;
 private:
     HardwareSerial& _ss;
     TinyGPS _gps;

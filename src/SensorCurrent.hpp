@@ -30,8 +30,8 @@ class SensorCurrentData : public SensorData {
 			CURRENT_CAP_LOWER,
 			CURRENT_CAP_UPPER
 		};
-		uint8_t GetCurrentAmps();
-		uint16_t GetCurrentMilliAmps();
+		uint8_t GetCurrentAmps() const;
+		uint16_t GetCurrentMilliAmps() const;
 	private:
 		friend class SensorCurrent;
 		uint16_t _current = 0;
@@ -40,7 +40,7 @@ class SensorCurrentData : public SensorData {
 
 #ifdef ROS
 	public:
-		void Publish();
+		void Publish() override;
 	private:
 		//spine_msg::msg_current _current_msg;
 #endif
@@ -50,11 +50,13 @@ class SensorCurrentData : public SensorData {
 class SensorCurrent : public Sensor {
 public:
     SensorCurrent(const uint8_t analogPin, const uint8_t sample_count, const unsigned long sampling_interval);
-    ~SensorCurrent();
-	bool Init();
-    bool Update();
+    ~SensorCurrent() override;
+	bool Init() override;
+    bool Update() override;
+	SensorCurrentData &RetreiveData() override;
 	void SetMonitoringParameters(const uint16_t lower_limit, const uint16_t upper_limit);
-	SensorCurrentData &RetreiveData();
+	uint8_t GetCurrentAmps() const;
+	uint16_t GetCurrentMilliAmps() const;
 private:
     const uint8_t _analogPin;
 	MedianFilter<uint16_t> _filter;

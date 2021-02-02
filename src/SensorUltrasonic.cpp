@@ -36,7 +36,9 @@ SensorUltrasonic::SensorUltrasonic(const uint8_t pin, const uint16_t max_depth, 
 {
 }
 
-SensorUltrasonic::~SensorUltrasonic() { }
+SensorUltrasonic::~SensorUltrasonic()
+{
+}
 
 bool SensorUltrasonic::Init()
 {
@@ -82,9 +84,9 @@ void SensorUltrasonic::SetMonitoringParameters(const uint16_t lower_limit, const
 	_data._upper_limit = upper_limit;
 }
 
-uint16_t SensorUltrasonic::GetDistance()
+uint16_t SensorUltrasonic::GetDistance() const
 {
-    return ((_data._distance > _data._max_depth) ? _data._max_depth : _data._distance);
+	return (_data.GetDistance());
 }
 
 /*
@@ -96,7 +98,14 @@ SensorDataUltrasonic::SensorDataUltrasonic(const uint16_t max_depth)
 {
 }
 
-uint16_t SensorDataUltrasonic::GetDistance()
+uint16_t SensorDataUltrasonic::GetDistance() const
 {
     return ((_distance > _max_depth) ? _max_depth : _distance);
 }
+
+#ifdef ROS
+void SensorDataUltrasonic::Publish()
+{
+
+}
+#endif

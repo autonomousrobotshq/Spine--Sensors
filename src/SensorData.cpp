@@ -41,6 +41,7 @@ SensorData::~SensorData()
 {
 	delete _pub;
 }
+
 SensorData::SensorData(const char *topic_name, ros::Msg *msg)
 	: _pub(new ros::Publisher(topic_name, msg))
 {
@@ -55,7 +56,7 @@ void	SensorData::PublishMsg(const ros::Msg * msg)
 	_pub->publish(msg);
 }
 
-ros::Publisher *SensorData::GetPublisher()
+ros::Publisher *SensorData::GetPublisher() const
 {
 	return (_pub);
 }
@@ -75,7 +76,7 @@ void	SensorData::DisablePublishing()
 	_publishing_enabled = true;
 }
 
-bool	SensorData::IsPublishingEnabled()
+bool	SensorData::IsPublishingEnabled() const
 {
 	return (_publishing_enabled);
 }
@@ -88,17 +89,17 @@ void	SensorData::UpdateTimestamps()
 	_timestamp = millis();
 }
 
-unsigned long SensorData::GetTimestamp()
+unsigned long SensorData::GetTimestamp() const
 {
 	return _timestamp;
 }
 
-unsigned long SensorData::GetTimeSinceLastExecution()
+unsigned long SensorData::GetTimeSinceLastExecution() const
 {
 	return _time_since_last_execution;
 }
 
-uint8_t SensorData::GetError()
+uint8_t SensorData::GetError() const
 {
 	return _errno;
 }

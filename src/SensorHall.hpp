@@ -32,7 +32,7 @@ public:
     ~SensorHall();
 	bool Init();
 	void CounterReset();
-	uint16_t CounterGetDistance();
+	uint16_t CounterGetDistance() const;
 
 private:
     const uint8_t _interrupt_index, _interrupt_pin;

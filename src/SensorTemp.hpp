@@ -31,11 +31,13 @@
 class SensorDataTemp : public SensorData 
 {
 	public:
+		SensorDataTemp();
+		~SensorDataTemp() override;
 		enum error {
 			TEMP_CAP_LOWER,
 			TEMP_CAP_UPPER
 		};
-    	int16_t GetTemp();
+    	int16_t GetTemp() const;
 	private:
 		friend class SensorTemp;
     	int16_t _celsius = 0;
@@ -44,7 +46,7 @@ class SensorDataTemp : public SensorData
 
 #ifdef ROS
     public:
-        void Publish();
+        void Publish() override;
     private:
         //spine_msg::msg_temp _temp_msg;
 #endif
@@ -54,12 +56,12 @@ class SensorDataTemp : public SensorData
 class SensorTemp : public Sensor {
 public:
     SensorTemp(const uint8_t pin, const unsigned long sampling_interval);
-    ~SensorTemp();
-	bool Init();
-    bool Update();
-	SensorDataTemp &RetreiveData();
+    ~SensorTemp() override;
+	bool Init() override;
+    bool Update() override;
+	SensorDataTemp &RetreiveData() override;
 	void SetMonitoringParameters(const uint16_t lower_limit, const uint16_t upper_limit);
-    int16_t GetTemp();
+    int16_t GetTemp() const;
 
 private:
 
