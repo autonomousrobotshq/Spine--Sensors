@@ -21,7 +21,7 @@
 #include <Arduino.h>
 #include <ArduinoUnitTests.h>
 
-#include "SensorCurrent.hpp"
+#include <SensorCurrent.hpp>
 
 unittest(Current_min)
 {
@@ -47,15 +47,16 @@ unittest(Current_max)
 	const int pin = 10;
 	const int sample_count = 10;
 	const int sampling_interval = 0;
-	const int adc_resolution = 1023;
 
 	SensorCurrent sensor(pin, sample_count, sampling_interval);
 	assertTrue(sensor.Init());
 
-	analogWrite(pin, adc_resolution);
+	analogWrite(pin, 255);
 	assertTrue(sensor.Update());
-	assertMore(sensor.RetreiveData().GetCurrentMilliAmps(), 0);
-	assertMore(sensor.RetreiveData().GetCurrentAmps(), 0);
+	assertMore(0, sensor.RetreiveData().GetCurrentMilliAmps());
+	assertMore(0, sensor.RetreiveData().GetCurrentAmps());
+
+	// more precies guess ?
 }
 
 unittest_main()
