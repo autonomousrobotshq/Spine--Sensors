@@ -52,7 +52,7 @@ unittest(Ultrasonic_max)
 	SensorUltrasonic sensor(pin, max_depth, sample_count, sampling_interval);
 	assertTrue(sensor.Init());
 
-	analogWrite(pin, 255);
+	analogWrite(pin, 1023); // ADC_RESOLUTION
 	assertTrue(sensor.Update());
 	assertEqual(max_depth, sensor.GetDistance());
 }
