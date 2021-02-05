@@ -30,11 +30,9 @@ public:
 	Sensor();
     Sensor(const unsigned long sampling_interval);
     virtual ~Sensor();
-	virtual bool Init();
-	virtual bool Update();
-	virtual SensorData &RetreiveData();
+	virtual bool Init() = 0;
+	virtual bool Update() = 0;
+	virtual SensorData &RetreiveData() = 0;
 	Timer _timer;
-private:
-	SensorData _data; // how to get rid of this?
 };
 #endif
