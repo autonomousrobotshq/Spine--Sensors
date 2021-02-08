@@ -34,18 +34,3 @@ Sensor::Sensor(const unsigned long sampling_interval)
 Sensor::~Sensor()
 {
 }
-
-bool Sensor::Init()
-{
-	return (true);
-}
-
-bool Sensor::Update()
-{
-	return (true);
-}
-
-SensorData	&Sensor::RetreiveData()
-{
-	return (_data);
-}
